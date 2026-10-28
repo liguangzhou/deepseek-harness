@@ -79,6 +79,10 @@ jobs:
       # Downloaded Electron archives, prepared Node runtimes and the packaging
       # pnpm store live outside any target directory so a clean checkout reuses them.
       DSH_DESKTOP_PACKAGE_CACHE_DIR: ${{ github.workspace }}/apps/desktop/.desktop-build/cache
+      # Every primary-runtime asset (Node archive, python-build-standalone,
+      # wheels) is fetched with this per-download budget; the default 300000
+      # aborts the whole packaging run on a cold cache over a slow egress path.
+      DSH_RESOURCE_DOWNLOAD_TIMEOUT_MS: '900000'
     steps:
       - uses: actions/checkout@v7.0.1
         with:
